@@ -63,6 +63,23 @@ class GameView(
       case Tie => "We have a tie"
     }
 
+    val score = state.score match {
+
+      case (0, 0) => ()
+
+      case (x, y) if x == y => out.write(s"""
+       | Its a tie so far is $x : $y
+      """)
+
+      case (x, y) if x > y => out.write(s"""
+       | Player1 is in the lead with $x : $y
+      """)
+
+      case (x, y) if x < y => out.write(s"""
+       | Player2 is in the lead with $x : $y
+      """)
+    }
+
     out.write(s"""
      | $a vs $b
      | $verdict""")
