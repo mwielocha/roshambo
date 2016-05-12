@@ -24,7 +24,11 @@ class GameLogicSpec extends FlatSpec with MustMatchers {
 
   "A game with a single rule" should "be a victory only for one combination of gestures" in {
 
-    val logic: GameLogic = new GameLogic(Set(Rock -> Scissors))
+    import GameLogicDsl._
+
+    val logic: GameLogic = GameLogic { implicit b =>
+      Rock ~> Paper
+    }
 
     val gestures = List(Rock, Paper, Scissors)
 

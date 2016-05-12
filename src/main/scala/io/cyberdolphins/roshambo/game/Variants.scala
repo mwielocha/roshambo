@@ -6,10 +6,12 @@ package io.cyberdolphins.roshambo.game
 
 object Variants {
 
-  val rockPaperScissors = new GameLogic(Set(
-    (Rock -> Scissors),
-    (Scissors -> Paper),
-    (Paper -> Rock)
-  ))
+  import GameLogicDsl._
+
+  val rockPaperScissors = GameLogic { implicit builder =>
+
+    Rock ~> Scissors ~> Paper ~> Rock
+
+  }
 }
 
