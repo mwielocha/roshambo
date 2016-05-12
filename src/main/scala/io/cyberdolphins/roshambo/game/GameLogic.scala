@@ -8,7 +8,7 @@ class GameLogic(private val rules: Set[(Gesture, Gesture)] = Set.empty) {
 
   def apply(a: Gesture, b: Gesture): Outcome =  a match {
     case `b` => Tie
-    case x if rules(x -> b) => Vistory
+    case x if rules(x -> b) => Victory
     case _ => Defeat
   }
 }

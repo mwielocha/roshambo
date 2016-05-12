@@ -22,7 +22,7 @@ class GameLogicSpec extends FlatSpec with MustMatchers {
     outcomes must contain only(Tie, Defeat)
   }
 
-  "A game with a single rule" should "be a victory only for a one combination of gestures" in {
+  "A game with a single rule" should "be a victory only for one combination of gestures" in {
 
     val logic: GameLogic = new GameLogic(Set(Rock -> Scissors))
 
