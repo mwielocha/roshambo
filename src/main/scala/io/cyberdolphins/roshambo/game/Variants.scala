@@ -16,8 +16,26 @@ object Variants {
 
   val rockPaperScissorsLizardSpock = GameLogic { implicit builder =>
 
-    Rock ~> Scissors ~> Paper ~> Rock
+    Rock ~> Scissors
 
+    Rock ~> Lizard
+
+            Lizard ~> Spock
+
+            Lizard ~> Paper
+
+                      Paper ~> Rock
+
+                      Paper ~> Spock
+
+                               Spock ~> Rock
+
+                               Spock ~> Scissors
+
+                                        Scissors ~> Paper
+
+                                        Scissors ~> Lizard
+                            
   }
 }
 
