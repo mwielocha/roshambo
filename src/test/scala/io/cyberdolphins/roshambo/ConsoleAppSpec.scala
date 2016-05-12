@@ -48,6 +48,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
 
     visitedScreens mustBe List("""
       | 1. Rock Paper Scissors
+      | 2. Rock Paper Scissors Lizard Spock
       | 0. Exit
     """).map(_.stripMargin.trim)
   }
@@ -57,6 +58,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     visitedScreens mustBe List(
     """
       | 1. Rock Paper Scissors
+      | 2. Rock Paper Scissors Lizard Spock
       | 0. Exit
     """,
     """
@@ -72,6 +74,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     visitedScreens mustBe List(
     """
       | 1. Rock Paper Scissors
+      | 2. Rock Paper Scissors Lizard Spock
       | 0. Exit
     """,
     """
@@ -82,6 +85,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     """,
     """
       | 1. Rock Paper Scissors
+      | 2. Rock Paper Scissors Lizard Spock
       | 0. Exit
     """).map(_.stripMargin.trim)
   }
