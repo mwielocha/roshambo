@@ -6,7 +6,7 @@ package io.cyberdolphins.roshambo.game
 
 sealed trait Outcome
 
-case object Vistory extends Outcome
+case object Victory extends Outcome
 case object Defeat extends Outcome
 case object Tie extends Outcome
 
