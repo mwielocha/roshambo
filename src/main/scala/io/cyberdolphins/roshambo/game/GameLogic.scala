@@ -6,6 +6,8 @@ package io.cyberdolphins.roshambo.game
 
 class GameLogic(private val rules: Set[(Gesture, Gesture)] = Set.empty) {
 
+  def availableGestures = rules.map(_._1)
+
   def apply(a: Gesture, b: Gesture): Outcome =  a match {
     case `b` => Tie
     case x if rules(x -> b) => Victory
