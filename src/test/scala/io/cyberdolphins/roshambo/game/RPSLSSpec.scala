@@ -68,8 +68,8 @@ class RPSLSSpec extends FlatSpec with MustMatchers {
     rpsls(Lizard, Spock) mustBe Victory
   }
 
-  it should "be a victory when Lizard vs Rock" in {
-    rpsls(Lizard, Rock) mustBe Victory
+  it should "be a victory when Lizard vs Paper" in {
+    rpsls(Lizard, Paper) mustBe Victory
   }
 
   // Defeats
