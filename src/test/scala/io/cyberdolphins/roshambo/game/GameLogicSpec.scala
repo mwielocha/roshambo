@@ -29,7 +29,7 @@ class GameLogicSpec extends FlatSpec with MustMatchers {
     val gestures = List(Rock, Paper, Scissors)
 
     val outcomes = for {
-      a <- gestures.filterNot(_ == Rock)
+      a <- gestures
       b <- gestures
     } yield logic(a, b)
 
