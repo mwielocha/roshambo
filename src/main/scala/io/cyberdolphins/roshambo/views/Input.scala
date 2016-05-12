@@ -4,9 +4,11 @@ package io.cyberdolphins.roshambo.views
  * Created by Mikolaj Wielocha on 12/05/16
  */
 
-trait View {
+trait Input {
+  def read: Option[String]
+}
 
-  def apply(): Unit
-
+object EmptyInput extends Input {
+  def read = None
 }
 
