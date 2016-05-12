@@ -8,7 +8,7 @@ lazy val root = (project in file(".")).
     scalaVersion := "2.11.7"
   )
 
-//mainClass in (Compile, run) := Some("...")
+mainClass in (Compile, run) := Some("io.cyberdolphins.roshambo.Run")
 
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "2.2.6" % "test"

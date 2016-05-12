@@ -19,9 +19,9 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
 
   class MutableOutput extends Output {
 
-    val visitedScreens = new mutable.ArrayBuffer[String]
+    val screenBuffer = new mutable.ArrayBuffer[String]
 
-    def write(s: String) = visitedScreens += s
+    def write(s: String) = screenBuffer += s.stripMargin.trim
   }
 
   class IterableInput(scenario: String*) extends Input {
@@ -31,20 +31,59 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     def read = if(inputs.hasNext) Some(inputs.next) else None
   }
 
-  val consoleApp: View = ???
-
-  "ConsoleApp" should "display a welcome menu" in {
+  class Interaction(steps: String*) {
 
     implicit val out = new MutableOutput
 
-    implicit val in = new IterableInput()
+    implicit val in = new IterableInput(steps: _*)
+
+    val consoleApp: View = ConsoleApp()
 
     consoleApp()
 
-    out.visitedScreens mustBe List("""
+    val visitedScreens = out.screenBuffer.toList
+  }
+
+  "ConsoleApp" should "display the welcome menu" in new Interaction() {
+
+    visitedScreens mustBe List("""
       | 1. Rock Paper Scissors
       | 0. Exit
-    """.stripMargin)
+    """).map(_.stripMargin.trim)
+  }
+
+  it should "go from the welcome menu to game menu" in new Interaction("1") {
+
+    visitedScreens mustBe List(
+    """
+      | 1. Rock Paper Scissors
+      | 0. Exit
+    """,
+    """
+      | 1. Player vs Player
+      | 2. Player vs Computer
+      | 3. Computer vs Computer
+      | 0. Back
+    """).map(_.stripMargin.trim)
+  }
+
+  it should "go from the welcome menu to game menu and back" in new Interaction("1", "0") {
+
+    visitedScreens mustBe List(
+    """
+      | 1. Rock Paper Scissors
+      | 0. Exit
+    """,
+    """
+      | 1. Player vs Player
+      | 2. Player vs Computer
+      | 3. Computer vs Computer
+      | 0. Back
+    """,
+    """
+      | 1. Rock Paper Scissors
+      | 0. Exit
+    """).map(_.stripMargin.trim)
   }
 }
 
