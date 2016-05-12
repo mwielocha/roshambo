@@ -22,4 +22,23 @@ class GameStrategySpec extends FlatSpec with MustMatchers {
       )
     ) mustBe Some(Paper)
   }
+
+  "Pattern recognition strategy" should "determine next move base of historical patterns" in {
+
+    val strategy: GameStrategy = ???
+
+    strategy(
+      List(
+        (Rock -> Paper),
+        (Rock -> Scissors),
+        (Scissors -> Rock),
+        (Paper -> Paper),
+        (Rock -> Scissors),
+        (Paper -> Rock),
+        (Rock -> Paper),
+        (Rock -> Scissors),
+        (Scissors -> Rock)
+      )
+    ) mustBe Some(Scissors)
+  }
 }

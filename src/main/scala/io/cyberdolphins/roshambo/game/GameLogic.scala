@@ -21,7 +21,6 @@ class GameLogic(private val rules: Set[(Gesture, Gesture)] = Set.empty) {
 
 object GameLogic {
 
-
   def apply(builderScope: GameLogicBuilder => Unit): GameLogic = {
 
     val builder = new GameLogicBuilder()
