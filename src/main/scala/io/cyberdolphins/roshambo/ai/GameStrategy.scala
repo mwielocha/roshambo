@@ -1,6 +1,8 @@
 package io.cyberdolphins.roshambo.ai
 
+import scala.util.Random
 import io.cyberdolphins.roshambo.game._
+
 
 /**
  * Created by Mikolaj Wielocha on 12/05/16
@@ -8,12 +10,17 @@ import io.cyberdolphins.roshambo.game._
 
 trait GameStrategy {
 
-  val logic: GameLogic
-
   type Move = (Gesture, Gesture)
 
   def apply(history: List[Move]): Option[Gesture]
 
+}
+
+case class RandomStrategy(val logic: GameLogic) extends GameStrategy {
+
+  def apply(history: List[Move]): Option[Gesture] = {
+    Random.shuffle(logic.availableGestures).headOption
+  }
 }
 
 case class MostFrequentMoveStrategy(val logic: GameLogic) extends GameStrategy {
@@ -21,7 +28,9 @@ case class MostFrequentMoveStrategy(val logic: GameLogic) extends GameStrategy {
   def apply(history: List[Move]): Option[Gesture] = {
     history.groupBy {
       case (a, b) => a
-    }.toList.sortBy(_._2.size)
+    }.toList
+      .filterNot(_._2.size < 2)
+      .sortBy(_._2.size)
       .reverse.headOption.map(_._1)
       .flatMap(logic.adversaryOf)
   }
@@ -38,18 +47,21 @@ case class PatternRecognitionStrategy(val logic: GameLogic, bufferSize: Int = 3)
       .take(bufferSize)
       .reverse
 
-    print(lastXGestures)
-
     val meanigfulGestures = enemyGestures
       .reverse
       .drop(bufferSize)
       .reverse
 
-    println(meanigfulGestures)
-
     meanigfulGestures.sliding(bufferSize + 1)
       .find(_.take(bufferSize) == lastXGestures)
       .flatMap(_.lastOption.flatMap(logic.adversaryOf))
   }
-} 
+}
+
+case class GameStrategyChain(strategies: GameStrategy*) extends GameStrategy {
+
+  def apply(history: List[Move]): Option[Gesture] = {
+    strategies.flatMap(_.apply(history)).headOption
+  }
+}
 
