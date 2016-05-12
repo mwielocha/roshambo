@@ -27,7 +27,7 @@ class Human(logic: GameLogic)(implicit val in: Input) extends Player {
 class Computer(logic: GameLogic) extends Player {
 
   val strategies = GameStrategyChain(
-    PatternRecognitionStrategy(logic),
+    PatternRecognitionStrategy(logic, logic.availableGestures.size),
     MostFrequentMoveStrategy(logic),
     RandomStrategy(logic)
   )
