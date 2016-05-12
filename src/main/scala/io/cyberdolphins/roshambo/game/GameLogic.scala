@@ -8,6 +8,10 @@ class GameLogic(private val rules: Set[(Gesture, Gesture)] = Set.empty) {
 
   def availableGestures = rules.map(_._1)
 
+  def adversaryOf(g: Gesture): Option[Gesture] = {
+    availableGestures.find(apply(_, g) == Victory)
+  }
+
   def apply(a: Gesture, b: Gesture): Outcome =  a match {
     case `b` => Tie
     case x if rules(x -> b) => Victory
@@ -16,6 +20,7 @@ class GameLogic(private val rules: Set[(Gesture, Gesture)] = Set.empty) {
 }
 
 object GameLogic {
+
 
   def apply(builderScope: GameLogicBuilder => Unit): GameLogic = {
 
