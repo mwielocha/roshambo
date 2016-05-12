@@ -10,8 +10,18 @@ class GameView(
   parent: View,
   val logic: GameLogic,
   val player1: Player,
-  val player2: Player
+  val player2: Player,
+  val state: GameState
 )(implicit override val in: Input, override val out: Output) extends AbstractView(parent) {
+
+  def updateState(a: Gesture, b: Gesture): GameView = {
+    new GameView(
+      parent,
+      logic,
+      player1,
+      player2,
+      state.update(a, b))
+  }
 
   val gestures = {
     logic.availableGestures.zipWithIndex.map {
@@ -26,8 +36,11 @@ class GameView(
     }.mkString("")
   }
 
-  def move(p: Player): Gesture = {
-    p.move match {
+  type History =  List[(Gesture, Gesture)]
+
+  def move(p: Player, history: History): Gesture = {
+
+    p.move(history) match {
       case Some(g) => g
       case None =>
 
@@ -35,14 +48,14 @@ class GameView(
          | Sorry, I didn't get that...
         """)
 
-        move(p)
+        move(p, history)
     }
   }
 
   override def next = {
 
-    val a = move(player1)
-    val b = move(player2)
+    val a = move(player1, state.history.map(_.swap))
+    val b = move(player2, state.history)
 
     val verdict = logic(a, b) match {
       case Victory => "Player1 wins!"
@@ -61,13 +74,13 @@ class GameView(
      | 2. No
     """)
 
-    playAgain
+    playAgain(a, b)
   }
 
-  def playAgain: View = {
+  def playAgain(a: Gesture, b: Gesture): View = {
 
     read() match {
-      case Some("1") => this
+      case Some("1") => this.updateState(a, b)
       case Some("2") => parent
       case _ =>
 
@@ -75,7 +88,7 @@ class GameView(
          | Not sure what you mean :(
         """)
 
-        playAgain
+        playAgain(a, b)
     }
   }
 }
