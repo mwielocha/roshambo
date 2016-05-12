@@ -8,7 +8,7 @@ import org.scalatest.{FlatSpec, MustMatchers}
 
 class RPSSpec extends FlatSpec with MustMatchers {
 
-  val rps: GameLogic = new GameLogic
+  val rps: GameLogic = Variants.rockPaperScissors
 
   "A game of rps" should "be a tie when Rock vs Rock" in {
     rps(Rock, Rock) mustBe Tie
@@ -35,15 +35,15 @@ class RPSSpec extends FlatSpec with MustMatchers {
   }
 
   it should "be a defeat when Paper vs Scissors" in {
-    rps(Paper, Scissors) mustBe Victory
+    rps(Paper, Scissors) mustBe Defeat
   }
 
   it should "be a defeat when Rock vs Paper" in {
-    rps(Rock, Paper) mustBe Victory
+    rps(Rock, Paper) mustBe Defeat
   }
 
   it should "be a defeat when Scissors vs Rock" in {
-    rps(Scissors, Rock) mustBe Victory
+    rps(Scissors, Rock) mustBe Defeat
   }
 }
 
