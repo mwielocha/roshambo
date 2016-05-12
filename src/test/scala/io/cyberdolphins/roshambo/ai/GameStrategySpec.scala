@@ -25,7 +25,7 @@ class GameStrategySpec extends FlatSpec with MustMatchers {
 
   "Pattern recognition strategy" should "determine next move base of historical patterns" in {
 
-    val strategy: GameStrategy = ???
+    val strategy: GameStrategy = PatternRecognitionStrategy(Variants.rockPaperScissors, 3)
 
     strategy(
       List(
