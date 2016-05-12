@@ -6,6 +6,27 @@ import io.cyberdolphins.roshambo.game._
  * Created by Mikolaj Wielocha on 12/05/16
  */
 
+object PvPGameView {
+
+  def apply(parent: View, logic: GameLogic)(implicit in: Input, out: Output) = {
+    new GameView(parent, logic, new Human(logic), new Human(logic), GameState(logic))
+  }
+}
+
+object PvCGameView {
+
+  def apply(parent: View, logic: GameLogic)(implicit in: Input, out: Output) = {
+    new GameView(parent, logic, new Human(logic), new Computer(logic), GameState(logic))
+  }
+}
+
+object CvCGameView {
+
+  def apply(parent: View, logic: GameLogic)(implicit in: Input, out: Output) = {
+    new GameView(parent, logic, new Computer(logic), new Computer(logic), GameState(logic))
+  }
+}
+
 class GameView(
   parent: View,
   val logic: GameLogic,

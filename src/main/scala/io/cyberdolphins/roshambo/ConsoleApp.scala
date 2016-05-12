@@ -26,34 +26,9 @@ class ConsoleApp(implicit in: Input, out: Output) extends Menu(Exit) {
         """
 
       def select = {
-
-        case "1" =>
-
-          new GameView(
-            this, rockPaperScissors,
-            new Human(rockPaperScissors),
-            new Human(rockPaperScissors),
-            GameState(rockPaperScissors)
-          )
-
-        case "2" =>
-
-          new GameView(
-            this, rockPaperScissors,
-            new Human(rockPaperScissors),
-            new Computer(rockPaperScissors),
-            GameState(rockPaperScissors)
-          )
-
-        case "3" =>
-
-          new GameView(
-            this, rockPaperScissors,
-            new Computer(rockPaperScissors),
-            new Computer(rockPaperScissors),
-            GameState(rockPaperScissors)
-          )
-
+        case "1" => PvPGameView(this, rockPaperScissors)
+        case "2" => PvCGameView(this, rockPaperScissors)
+        case "3" => CvCGameView(this, rockPaperScissors)
         case "0" => parent
       }
     }
