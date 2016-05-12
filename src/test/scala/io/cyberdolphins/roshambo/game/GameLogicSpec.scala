@@ -8,13 +8,9 @@ import org.scalatest.{FlatSpec, MustMatchers}
 
 class GameLogicSpec extends FlatSpec with MustMatchers {
 
-  val logic: GameLogic = new GameLogic
+  "A game with no rules" should "never be a victory" in {
 
-  def givenGestures(a: Gesture, b: Gesture, outcome: Outcome) = {
-    logic(a, b) mustBe outcome
-  }
-
-  "A game with no rules" should "always be a defeat" in {
+    val logic: GameLogic = new GameLogic
 
     val gestures = List(Rock, Paper, Scissors)
 
@@ -23,7 +19,21 @@ class GameLogicSpec extends FlatSpec with MustMatchers {
       b <- gestures
     } yield logic(a, b)
 
-    outcomes.distinct mustBe List(Defeat)
+    outcomes must contain only(Tie, Defeat)
+  }
+
+  "A game with a single rule" should "be a victory only for a one combination of gestures" in {
+
+    val logic: GameLogic = new GameLogic(Set(Rock -> Scissors))
+
+    val gestures = List(Rock, Paper, Scissors)
+
+    val outcomes = for {
+      a <- gestures.filterNot(_ == Rock)
+      b <- gestures
+    } yield logic(a, b)
+
+    outcomes.count(_ == Victory) mustBe 1
   }
 }
 
