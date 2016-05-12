@@ -12,7 +12,7 @@ class GameStrategySpec extends FlatSpec with MustMatchers {
 
   "Frequency based game strategy" should "determine next move base of historical frequency" in {
 
-    val strategy: GameStrategy = ???
+    val strategy: GameStrategy = MostFrequentMoveStrategy(Variants.rockPaperScissors)
 
     strategy(
       List(
