@@ -27,3 +27,29 @@ case class MostFrequentMoveStrategy(val logic: GameLogic) extends GameStrategy {
   }
 }
 
+case class PatternRecognitionStrategy(val logic: GameLogic, bufferSize: Int = 3) extends GameStrategy {
+
+  def apply(history: List[Move]): Option[Gesture] = {
+
+    val enemyGestures = history.map(_._1)
+
+    val lastXGestures = enemyGestures
+      .reverse
+      .take(bufferSize)
+      .reverse
+
+    print(lastXGestures)
+
+    val meanigfulGestures = enemyGestures
+      .reverse
+      .drop(bufferSize)
+      .reverse
+
+    println(meanigfulGestures)
+
+    meanigfulGestures.sliding(bufferSize + 1)
+      .find(_.take(bufferSize) == lastXGestures)
+      .flatMap(_.lastOption.flatMap(logic.adversaryOf))
+  }
+} 
+
