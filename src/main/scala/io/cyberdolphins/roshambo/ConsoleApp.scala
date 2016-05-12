@@ -1,7 +1,8 @@
 package io.cyberdolphins.roshambo
 
 import io.cyberdolphins.roshambo.views._
-import io.cyberdolphins.roshambo.game.Variants._
+import io.cyberdolphins.roshambo.game._
+import Variants._
 
 /**
  * Created by Mikolaj Wielocha on 12/05/16
@@ -31,7 +32,8 @@ class ConsoleApp(implicit in: Input, out: Output) extends Menu(Exit) {
           new GameView(
             this, rockPaperScissors,
             new Human(rockPaperScissors),
-            new Human(rockPaperScissors)
+            new Human(rockPaperScissors),
+            GameState(rockPaperScissors)
           )
 
         case "2" =>
@@ -39,7 +41,8 @@ class ConsoleApp(implicit in: Input, out: Output) extends Menu(Exit) {
           new GameView(
             this, rockPaperScissors,
             new Human(rockPaperScissors),
-            new Computer(rockPaperScissors)
+            new Computer(rockPaperScissors),
+            GameState(rockPaperScissors)
           )
 
         case "3" =>
@@ -47,7 +50,8 @@ class ConsoleApp(implicit in: Input, out: Output) extends Menu(Exit) {
           new GameView(
             this, rockPaperScissors,
             new Computer(rockPaperScissors),
-            new Computer(rockPaperScissors)
+            new Computer(rockPaperScissors),
+            GameState(rockPaperScissors)
           )
 
         case "0" => parent

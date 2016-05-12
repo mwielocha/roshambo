@@ -1,6 +1,7 @@
 package io.cyberdolphins.roshambo.views
 
 import io.cyberdolphins.roshambo.game._
+import io.cyberdolphins.roshambo.ai._
 import scala.util.Random
 import scala.collection.breakOut
 
@@ -9,7 +10,7 @@ import scala.collection.breakOut
  */
 
 trait Player {
-  def move: Option[Gesture]
+  def move(history: List[(Gesture, Gesture)]): Option[Gesture]
 }
 
 class Human(logic: GameLogic)(implicit val in: Input) extends Player {
@@ -20,10 +21,16 @@ class Human(logic: GameLogic)(implicit val in: Input) extends Player {
     } (breakOut)
   }
 
-  def move = in.read.flatMap(gestures.get)
+  def move(history: List[(Gesture, Gesture)]) = in.read.flatMap(gestures.get)
 }
 
 class Computer(logic: GameLogic) extends Player {
 
-  def move = Random.shuffle(logic.availableGestures).headOption
+  val strategies = GameStrategyChain(
+    PatternRecognitionStrategy(logic),
+    MostFrequentMoveStrategy(logic),
+    RandomStrategy(logic)
+  )
+
+  def move(history: List[(Gesture, Gesture)]) = strategies(history)
 }
