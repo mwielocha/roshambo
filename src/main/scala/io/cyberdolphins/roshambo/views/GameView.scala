@@ -35,29 +35,32 @@ class GameView(
   val state: GameState
 )(implicit override val in: Input, override val out: Output) extends AbstractView(parent) {
 
-  def updateState(a: Gesture, b: Gesture): GameView = {
+  def updateState(newState: GameState): GameView = {
     new GameView(
       parent,
       logic,
       player1,
       player2,
-      state.update(a, b))
+      newState
+    )
   }
 
   val gestures = {
-    logic.availableGestures.zipWithIndex.map {
-      case (g, i) => s"${i + 1}" -> g
-    }
+    logic.availableGestures.toList
+      .sortBy(_.toString)
+      .zipWithIndex.map {
+        case (g, i) => s"${i + 1}" -> g
+      }
   }
 
   val text = {
     gestures.map {
       case (i, g) => s"""
        | $i. $g"""
-    }.mkString("")
+    }.mkString("") + "\n"
   }
 
-  type History =  List[(Gesture, Gesture)]
+  type History = List[(Gesture, Gesture)]
 
   def move(p: Player, history: History): Gesture = {
 
@@ -78,32 +81,31 @@ class GameView(
     val a = move(player1, state.history.map(_.swap))
     val b = move(player2, state.history)
 
-    val verdict = logic(a, b) match {
-      case Victory => "Player1 wins!"
-      case Defeat => "Player2 wins!"
-      case Tie => "We have a tie"
-    }
+    val newState: GameState = state.update(a, b)
 
-    val score = state.score match {
-
-      case (0, 0) => ()
-
-      case (x, y) if x == y => out.write(s"""
-       | Its a tie so far is $x : $y
-      """)
-
-      case (x, y) if x > y => out.write(s"""
-       | Player1 is in the lead with $x : $y
-      """)
-
-      case (x, y) if x < y => out.write(s"""
-       | Player2 is in the lead with $x : $y
-      """)
+    val verdict = newState.lastOutcome match {
+      case Some(Victory) => "Player1 wins!"
+      case Some(Defeat) => "Player2 wins!"
+      case _ => "We have a tie"
     }
 
     out.write(s"""
      | $a vs $b
      | $verdict""")
+
+    val score = newState.score match {
+
+      case _ if state.isEmpty => ()
+
+      case (x, y) if x == y => out.write(s"""
+       | A tie so far with $x : $y""")
+
+      case (x, y) if x > y => out.write(s"""
+       | Player1 is in the lead with $x : $y""")
+
+      case (x, y) if x < y => out.write(s"""
+       | Player2 is in the lead with $x : $y""")
+    }
 
     out.write("""
      | Play again?
@@ -112,13 +114,13 @@ class GameView(
      | 2. No
     """)
 
-    playAgain(a, b)
+    playAgain(newState)
   }
 
-  def playAgain(a: Gesture, b: Gesture): View = {
+  def playAgain(newState: GameState): View = {
 
     read() match {
-      case Some("1") => this.updateState(a, b)
+      case Some("1") => updateState(newState)
       case Some("2") => parent
       case _ =>
 
@@ -126,7 +128,7 @@ class GameView(
          | Not sure what you mean :(
         """)
 
-        playAgain(a, b)
+        playAgain(newState)
     }
   }
 }
