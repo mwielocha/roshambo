@@ -24,6 +24,6 @@ trait View {
   }
 }
 
-abstract class AbstractView(override val parent: View)(implicit val in: Input, out: Output) extends View
+abstract class AbstractView(override val parent: View)(implicit val in: Input, val out: Output) extends View
 
 

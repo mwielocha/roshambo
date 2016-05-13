@@ -4,7 +4,7 @@ package io.cyberdolphins.roshambo.views
  * Created by Mikolaj Wielocha on 12/05/16
  */
 
-abstract class Menu(parent: View)(implicit override val in: Input, override val out: Output) extends AbstractView(parent) {
+abstract class Menu(parent: View)(implicit in: Input, out: Output) extends AbstractView(parent) {
 
   type Selection = PartialFunction[String, View]
 
