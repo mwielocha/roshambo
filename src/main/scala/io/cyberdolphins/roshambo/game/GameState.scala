@@ -6,12 +6,16 @@ package io.cyberdolphins.roshambo.game
 
 case class GameState(logic: GameLogic, history: List[(Gesture, Gesture)] = List.empty) {
 
+  val isEmpty = history.isEmpty
+
   def update(a: Gesture, b: Gesture): GameState = {
     copy(history = history :+ (a -> b))
   }
 
-  val lastOutcome: Option[Outcome] = history.lastOption.map {
-    case (a, b) => logic(a, b)
+  val lastOutcome: Option[Outcome] = {
+    history.lastOption.map {
+      case (a, b) => logic(a, b)
+    }
   }
 
   val score: (Int, Int) = {

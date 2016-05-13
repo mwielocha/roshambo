@@ -9,6 +9,7 @@ lazy val root = (project in file(".")).
   )
 
 mainClass in (Compile, run) := Some("io.cyberdolphins.roshambo.Run")
+mainClass in (Compile, assembly) := Some("io.cyberdolphins.roshambo.Run")
 
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "2.2.6" % "test"
