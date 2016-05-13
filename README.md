@@ -4,7 +4,7 @@ A game of Rock Paper Scissors
 # Testing
 As simple as `sbt test`
 
-# Runing from sbt
+# Running from sbt
 Just do `sbt run`
 
 # Building
