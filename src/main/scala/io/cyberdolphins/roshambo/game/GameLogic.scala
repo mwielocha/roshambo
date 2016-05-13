@@ -7,6 +7,8 @@ package io.cyberdolphins.roshambo.game
 class GameLogic(private val rules: Set[(Gesture, Gesture)] = Set.empty) {
 
   def availableGestures = rules.map(_._1)
+    .toList
+    .sortBy(_.toString)
 
   def adversaryOf(g: Gesture): Option[Gesture] = {
     availableGestures.find(apply(_, g) == Victory)

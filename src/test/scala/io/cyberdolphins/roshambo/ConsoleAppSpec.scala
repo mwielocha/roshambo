@@ -59,7 +59,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     """).map(_.stripMargin.trim)
   }
 
-  it should "go from the welcome menu to game menu" in new Interaction("1") {
+  it should "go from the welcome menu to the game menu" in new Interaction("1") {
 
     visitedScreens mustBe List(
     """
@@ -75,7 +75,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     """).map(_.stripMargin.trim)
   }
 
-  it should "go from the welcome menu to games menu and back" in new Interaction("1", "0") {
+  it should "go from the welcome menu to the games menu and back" in new Interaction("1", "0") {
 
     visitedScreens mustBe List(
     """
@@ -96,7 +96,7 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
     """).map(_.stripMargin.trim)
   }
 
-   it should "go from the welcome menu to game menu and play one round" in new Interaction("1", "1", "1", "2", "2") {
+   it should "go from the welcome menu to the rps game menu and play one round" in new Interaction("1", "1", "1", "2", "2") {
 
     visitedScreens mustBe List(
     """
@@ -116,7 +116,46 @@ class ConsoleAppSpec extends FlatSpec with MustMatchers {
       | 3. Scissors
     """,
     """
-      | Rock vs Scissors
+      | Paper vs Rock
+      | Player1 wins!
+    """,
+    """
+      | Play again?
+      |
+      | 1. Yes
+      | 2. No
+    """,
+    """
+      | 1. Player vs Player
+      | 2. Player vs Computer
+      | 3. Computer vs Computer
+      | 0. Back
+    """).map(_.stripMargin.trim)
+  }
+
+  it should "go from the welcome menu to the rpsls game menu and play one round" in new Interaction("2", "1", "5", "4", "2") {
+
+    visitedScreens mustBe List(
+    """
+      | 1. Rock Paper Scissors
+      | 2. Rock Paper Scissors Lizard Spock
+      | 0. Exit
+    """,
+    """
+      | 1. Player vs Player
+      | 2. Player vs Computer
+      | 3. Computer vs Computer
+      | 0. Back
+    """,
+    """
+      | 1. Lizard
+      | 2. Paper
+      | 3. Rock
+      | 4. Scissors
+      | 5. Spock
+    """,
+    """
+      | Spock vs Scissors
       | Player1 wins!
     """,
     """
