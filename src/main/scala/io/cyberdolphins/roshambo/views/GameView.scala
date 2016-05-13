@@ -46,8 +46,7 @@ class GameView(
   }
 
   val gestures = {
-    logic.availableGestures.toList
-      .sortBy(_.toString)
+    logic.availableGestures
       .zipWithIndex.map {
         case (g, i) => s"${i + 1}" -> g
       }
